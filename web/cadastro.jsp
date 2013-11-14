@@ -33,6 +33,7 @@
                 String[][] campos = new String[][] {
                     //{label, tipo do campo, nome do campo, valor padrão, parâmetros html/input}
                     {"CPF", "text", "cpf", "", ""},
+                    {"Senha", "password", "senha", "", ""},
                     {"Nome", "text", "nome", "", ""},
                     {"Data de nascimento", "date", "dtNascimento", "", ""},
                     {"Endereço", "text", "endereco", "", ""},
@@ -65,35 +66,38 @@
                         //INICIALIZANDO VALORES PARA O ALTERAR
                         campos[0][3] = String.valueOf(usuario.getCpf());
                         campos[0][4] = "readonly=\"readonly\"";
-                        campos[1][3] = String.valueOf(usuario.getNome());
-                        campos[2][3] = String.valueOf(usuario.getDtNascimento());
-                        campos[3][3] = String.valueOf(usuario.getEndereco());
-                        campos[4][3] = String.valueOf(usuario.getTelefone());
-                        campos[5][3] = String.valueOf(usuario.getEmail());
+                        campos[1][3] = "";
+                        campos[2][3] = String.valueOf(usuario.getNome());
+                        campos[3][3] = String.valueOf(usuario.getDtNascimento());
+                        campos[4][3] = String.valueOf(usuario.getEndereco());
+                        campos[5][3] = String.valueOf(usuario.getTelefone());
+                        campos[6][3] = String.valueOf(usuario.getEmail());
                     }
                 }else if(qtdParamVazio != 0){
                     msg = "Preencha todos os campos!";
                 }else{
                     //RECUPERANDO AS INFORMAÇÕES
                     cpf = request.getParameter("cpf");
-                    String nome = campos[1][3];
-                    Date dtNascimento = Date.valueOf(campos[2][3]);
+                    String senha = request.getParameter("senha");
+                    String nome = request.getParameter("nome");
+                    Date dtNascimento = Date.valueOf(request.getParameter("dtNascimento"));
                     String endereco = request.getParameter("endereco");
                     String telefone = request.getParameter("telefone");
                     String email = request.getParameter("email");
                     //SALVA INFORMAÇÕES NO BANCO DE DADOS
                     if(request.getParameter("inserir") != null){ //INSERE NOVO
-                        Usuario novo = new Usuario(cpf, nome, dtNascimento, endereco, telefone, email);
+                        Usuario novo = new Usuario(cpf, senha, nome, dtNascimento, endereco, telefone, email);
                     }else if(request.getParameter("alterar") != null){ //ATUALIZA AS INFO
+                        usuario.setSenha(senha);
                         usuario.setNome(nome);
                         usuario.setDtNascimento(dtNascimento);
                         usuario.setEndereco(endereco);
-                        usuario.setEndereco(telefone);
-                        usuario.setEndereco(email);
+                        usuario.setTelefone(telefone);
+                        usuario.setEmail(email);
                         usuario.atualizar();
                     }
                     //REDIRECIONA USUÁRIO PARA PÁGINA DO USUÁRIO (DETALHES)
-                    response.sendRedirect("usuario.jsp?cpf="+cpf);
+                    response.sendRedirect("cadastro.jsp?cpf="+cpf);
                 }
                 %>
                 <style>
@@ -124,7 +128,7 @@
             }else if(request.getParameter("excluir") != null && usuario != null){//EXCLUIR
                 usuario.excluir();
                 //REDIRECIONA USUÁRIO PARA PÁGINA DE TODOS OS USUÁRIOS
-                response.sendRedirect("usuario.jsp");
+                response.sendRedirect("cadastro.jsp");
             }else{//NENHUMA AÇÃO
                 if(usuario == null){
                     %><p><a href="?inserir">Inserir novo usuário</a><%
@@ -159,7 +163,7 @@
                         %></table><%
                     }
                 }else{
-                    %><p><a href="usuario.jsp">Mostrar todos os usuários cadastrados</a><%
+                    %><p><a href="cadastro.jsp">Mostrar todos os usuários cadastrados</a><%
                     //MOSTRA OS DADOS DO USUÁRIO SELECIONADO
                     %><table border="1">
                         <tr>

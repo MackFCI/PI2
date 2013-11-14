@@ -4,6 +4,7 @@
     Author     : lucasesaito
 --%>
 
+<%@page import="Mackenzie.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +14,20 @@
     </head>
     <body>
         <h1>Sistema de venda de passagens</h1>
-        <p><a href="cadastro.jsp">Clique aqui para se cadastrar</a></p>
+        <%
+        Usuario usuarioAutenticado = (Usuario) session.getAttribute("ctrl_usuario");
+        if(usuarioAutenticado == null){
+            %>
+            <p><a href="cadastro.jsp">Clique aqui para se cadastrar</a></p>
+            <p><a href="voo.jsp">Consultar voos disponíveis</a></p>
+            <%
+        }else{
+            %>
+            <p>Olá <%=usuarioAutenticado.getNome()%> ! <a href="login.jsp?sair">Sair</a></p>
+            <p><a href="voo.jsp">Consultar voos disponíveis</a></p>
+            <p><a href="passagem.jsp">Consultar passagens compradas</a></p>
+            <%
+        }
+        %>
     </body>
 </html>
