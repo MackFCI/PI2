@@ -19,6 +19,8 @@ public class Voo {
     Aeroporto origem;
     Aeroporto destino;
     int qtdPoltronas;
+    int qtdParadas;
+    int duracao;
     
     //CONSTRUTORES
     public Voo(int nVoo) throws Exception {
@@ -39,6 +41,8 @@ public class Voo {
             this.origem = new Aeroporto(rs.getString("origem"));
             this.destino = new Aeroporto(rs.getString("destino"));
             this.qtdPoltronas = rs.getInt("qtdPoltronas");
+            this.qtdParadas = rs.getInt("qtdParadas");
+            this.duracao = rs.getInt("duracao");
         }
     }
     
@@ -60,6 +64,12 @@ public class Voo {
     }
     public int getQtdPoltronas(){
         return qtdPoltronas;
+    }
+    public int getQtdParadas(){
+        return qtdParadas;
+    }
+    public int getDuracao(){
+        return duracao;
     }
     
     static public ResultSet retornaTodos() throws Exception{

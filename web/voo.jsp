@@ -88,6 +88,14 @@
                             <th>Quantidade de poltronas</th>
                             <td><%=voo.getQtdPoltronas()%></td>
                         </tr>
+                        <tr>
+                            <th>Quantidade de paradas</th>
+                            <td><%=voo.getQtdParadas()%></td>
+                        </tr>
+                        <tr>
+                            <th>Duração</th>
+                            <td><%=voo.getDuracao()%></td>
+                        </tr>
                     </table><%
                 }
             }catch(Exception e){

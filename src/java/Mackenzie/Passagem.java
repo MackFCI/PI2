@@ -16,8 +16,6 @@ public class Passagem {
     int nVoo;
     int nPoltrona;
     String cpf;
-    int qtdParadas;
-    int duracao;
     String nomePassageiro;
     
     //CONSTRUTORES
@@ -38,17 +36,13 @@ public class Passagem {
             this.nVoo = rs.getInt("nVoo");
             this.nPoltrona = rs.getInt("nPoltrona");
             this.cpf = rs.getString("cpf");
-            this.qtdParadas = rs.getInt("qtdParadas");
-            this.duracao = rs.getInt("duracao");
             this.nomePassageiro = rs.getString("nomePassageiro");
         }
     }
-    public Passagem(int nVoo, int nPoltrona, String cpf, int qtdParadas, int duracao, String nomePassageiro) throws Exception {
+    public Passagem(int nVoo, int nPoltrona, String cpf, String nomePassageiro) throws Exception {
         this.nVoo = nVoo;
         this.nPoltrona = nPoltrona;
         this.cpf = cpf;
-        this.qtdParadas = qtdParadas;
-        this.duracao = duracao;
         this.nomePassageiro = nomePassageiro;
         
         Conexao banco = new Conexao();
@@ -71,13 +65,11 @@ public class Passagem {
             }
             
             //INSERIR
-            ps = con.prepareStatement("INSERT INTO " + nomeTabela + " (nVoo, nPoltrona, cpf, qtdParadas, duracao, nomePassageiro) VALUES (?, ?, ?, ?, ?, ?)");
+            ps = con.prepareStatement("INSERT INTO " + nomeTabela + " (nVoo, nPoltrona, cpf, nomePassageiro) VALUES (?, ?, ?, ?)");
             ps.setInt(1, nVoo);
             ps.setInt(2, nPoltrona);
             ps.setString(3, cpf);
-            ps.setInt(4, qtdParadas);
-            ps.setInt(5, duracao);
-            ps.setString(6, nomePassageiro);
+            ps.setString(4, nomePassageiro);
             ps.executeUpdate();
         }else{
             //Passagem JÁ EXISTE
@@ -94,12 +86,6 @@ public class Passagem {
     }
     public String getCpf(){
         return cpf;
-    }
-    public int getQtdParadas(){
-        return qtdParadas;
-    }
-    public int getDuracao(){
-        return duracao;
     }
     public String getNomePassageiro(){
         return nomePassageiro;

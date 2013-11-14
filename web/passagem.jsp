@@ -61,14 +61,6 @@
                             <td><%=passagem.getCpf()%></td>
                         </tr>
                         <tr>
-                            <th>Quantidade de paradas</th>
-                            <td><%=passagem.getQtdParadas()%></td>
-                        </tr>
-                        <tr>
-                            <th>Duração (horas)</th>
-                            <td><%=passagem.getDuracao()%></td>
-                        </tr>
-                        <tr>
                             <th>Nome do passageiro</th>
                             <td><%=passagem.getNomePassageiro()%></td>
                         </tr>
@@ -86,11 +78,9 @@
                     String cpf = usuarioAutenticado.getCpf();
                     if(request.getParameter("btnSubmit") != null){
                         //FAZER A PARTE DE SALVAR PASSAGEM COMPRADA!!!!!
-                        int qtdParadas = Integer.valueOf(request.getParameter("txtQtdParadas"));
-                        int duracao = Integer.valueOf(request.getParameter("txtDuracao"));
                         String nomePassageiro = request.getParameter("txtNomePassageiro");
                         
-                        Passagem novaPassagem = new Passagem(voo.getNVoo(), nPoltrona, cpf, qtdParadas, duracao, nomePassageiro);
+                        Passagem novaPassagem = new Passagem(voo.getNVoo(), nPoltrona, cpf, nomePassageiro);
                         
                         response.sendRedirect("passagem.jsp?nVoo="+voo.getNVoo()+"&nPoltrona="+nPoltrona);
                     }
@@ -98,14 +88,6 @@
                     %>
                     <form method="post" action="?nVoo=<%=voo.getNVoo()%>&nPoltrona=<%=nPoltrona%>&comprar">
                         <table>
-                            <tr>
-                                <th>Quantidade de paradas</th>
-                                <td><input type="number" name="txtQtdParadas" /></td>
-                            </tr>
-                            <tr>
-                                <th>Duração (horas)</th>
-                                <td><input type="number" name="txtDuracao" /></td>
-                            </tr>
                             <tr>
                                 <th>Nome do passageiro</th>
                                 <td><input type="text" name="txtNomePassageiro" /></td>
