@@ -24,6 +24,10 @@
                     //CARREGA OS DADOS DO Aeroporto INFORMADO
                     aeroporto = new Aeroporto(cod);
                 }
+                
+                //BREADCRUMB
+                %><p><a href="index.jsp">Início</a> > <a href="voo.jsp">Voo</a> > <a href="aeroporto.jsp">Aeroporto</a></p><%
+                
                 if(aeroporto == null){
                     //MOSTRA TODOS OS Aeroportos
                     ResultSet rs = Aeroporto.retornaTodos();
@@ -50,9 +54,14 @@
                         %></table><%
                     }
                 }else{
-                    %><p><a href="aeroporto.jsp">Mostrar todos os aeroportos cadastrados</a><%
                     //MOSTRA OS DADOS DO Aeroporto SELECIONADO
-                    %><table border="1">
+                    %>
+                    <style>
+                        table tr th{
+                            text-align: right;
+                        }
+                    </style>
+                    <table border="1">
                         <tr>
                             <th>Código do aeroporto</th>
                             <td><%=aeroporto.getCod()%></td>
@@ -65,7 +74,8 @@
                             <th>Cidade</th>
                             <td><%=aeroporto.getCidade()%></td>
                         </tr>
-                    </table><%
+                    </table>
+                    <%
                 }
             }catch(Exception e){
                 System.out.print(e);

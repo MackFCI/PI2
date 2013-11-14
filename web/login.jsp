@@ -38,6 +38,7 @@
     </head>
     <body>
         <h1>Login</h1>
+        <p><a href="index.jsp">Início</a> > <a href="login.jsp">Login</a></p>
         <%
         usuarioAutenticado = (Usuario) session.getAttribute("ctrl_usuario");
         if(usuarioAutenticado == null){

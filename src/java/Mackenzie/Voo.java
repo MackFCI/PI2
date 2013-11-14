@@ -81,4 +81,42 @@ public class Voo {
         
         return rs;
     }
+    static public ResultSet retornaBusca(String texto) throws Exception{
+        Conexao banco = new Conexao();
+        Connection con = banco.getCon();
+        
+        PreparedStatement ps;
+        ps = con.prepareStatement("SELECT * FROM " + nomeTabela
+                + " WHERE"
+                + " origem IN (SELECT codAeroporto FROM aeroporto WHERE codAeroporto LIKE ? OR nome LIKE ? OR cidade LIKE ?) OR"
+                + " destino IN (SELECT codAeroporto FROM aeroporto WHERE codAeroporto LIKE ? OR nome LIKE ? OR cidade LIKE ?)");
+        ps.setString(1, "%"+texto+"%");
+        ps.setString(2, "%"+texto+"%");
+        ps.setString(3, "%"+texto+"%");
+        ps.setString(4, "%"+texto+"%");
+        ps.setString(5, "%"+texto+"%");
+        ps.setString(6, "%"+texto+"%");
+        ResultSet rs = ps.executeQuery();
+        
+        return rs;
+    }
+    static public ResultSet retornaBusca(String origem, String destino) throws Exception{
+        Conexao banco = new Conexao();
+        Connection con = banco.getCon();
+        
+        PreparedStatement ps;
+        ps = con.prepareStatement("SELECT * FROM " + nomeTabela
+                + " WHERE"
+                + " origem IN (SELECT codAeroporto FROM aeroporto WHERE codAeroporto LIKE ? OR nome LIKE ? OR cidade LIKE ?) AND"
+                + " destino IN (SELECT codAeroporto FROM aeroporto WHERE codAeroporto LIKE ? OR nome LIKE ? OR cidade LIKE ?)");
+        ps.setString(1, "%"+origem+"%");
+        ps.setString(2, "%"+origem+"%");
+        ps.setString(3, "%"+origem+"%");
+        ps.setString(4, "%"+destino+"%");
+        ps.setString(5, "%"+destino+"%");
+        ps.setString(6, "%"+destino+"%");
+        ResultSet rs = ps.executeQuery();
+        
+        return rs;
+    }
 }

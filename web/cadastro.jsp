@@ -15,6 +15,7 @@
     </head>
     <body>
         <h1>Cadastro de usuário</h1>
+        <p><a href="index.jsp">Início</a> > <a href="cadastro.jsp">Cadastro</a></p>
         <%
         try{
             String cpf = "";

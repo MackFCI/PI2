@@ -13,7 +13,6 @@ import java.sql.*;
 public class Conexao {
     private String servidor = "localhost";
     private String usuario = "root";
-    //private String senha = "administrador";
     private String senha = "";
     String database = "mackenzie_pi2";
     String tabela;
@@ -61,8 +60,7 @@ public class Conexao {
         }
     }
     
-    Connection getCon() throws SQLException, Exception{
-        this.preparaBanco();
+    Connection getCon(){
         return con;
     }
     

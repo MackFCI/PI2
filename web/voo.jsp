@@ -14,7 +14,7 @@
         <title>Projeto Interdisciplinar II | Voo</title>
     </head>
     <body>
-        <h1>Voos</h1>
+        <h1>Voo</h1>
         <%
             try{
                 int nVoo = 0;
@@ -24,22 +24,48 @@
                     //CARREGA OS DADOS DO Voo INFORMADO
                     voo = new Voo(nVoo);
                 }
+                
+                //BREADCRUMB
+                %><p><a href="index.jsp">Início</a> > <a href="voo.jsp">Voo</a></p><%
+                
                 if(voo == null){
                     //MOSTRA TODOS OS Voos
-                    ResultSet rs = Voo.retornaTodos();
+                    ResultSet rs;
+                    String buscaOrigem = request.getParameter("sO");
+                    String buscaDestino = request.getParameter("sD");
+                    if(buscaOrigem != null && buscaDestino != null){
+                        rs = Voo.retornaBusca(buscaOrigem, buscaDestino);
+                    }else{
+                        rs = Voo.retornaTodos();
+                        buscaOrigem = "";
+                        buscaDestino = "";
+                    }
+                    
                     if(!rs.isBeforeFirst()){
                         out.print("<p>Nenhum voo foi encontrado!</p>");
                     }else{
                         //MOSTRA OS REGISTROS
-                        %><table border="1">
+                        %>
+                        <form action="" method="get">
+                            <table>
+                                <tr>
+                                    <td>Origem:</td>
+                                    <td><input type="text" name="sO" value="<%=buscaOrigem%>" /></td>
+                                    <td rowspan="2"><input type="submit" value="Buscar" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Destino:</td>
+                                    <td><input type="text" name="sD" value="<%=buscaDestino%>" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                        <br />
+                        <table border="1">
                             <tr>
-                                <th>Nº do Voo</th>
                                 <th>Data</th>
                                 <th>Hora</th>
                                 <th>Origem</th>
                                 <th>Destino</th>
-                                <th>Poltronas</th>
-                                <th>&nbsp;</th>
                                 <th>&nbsp;</th>
                             </tr>
                         <%
@@ -48,22 +74,24 @@
                             Aeroporto destino = new Aeroporto(rs.getString("destino"));
 
                             %><tr>
-                                <td><%=rs.getInt("nVoo")%></td>
                                 <td><%=rs.getDate("data")%></td>
                                 <td><%=rs.getTime("hora")%></td>
                                 <td align="center" title="<%=origem.getNome()%>"><a href="aeroporto.jsp?cod=<%=origem.getCod()%>">[<%=origem.getCod()%>] <%=origem.getCidade()%></a></td>
                                 <td align="center" title="<%=destino.getNome()%>"><a href="aeroporto.jsp?cod=<%=destino.getCod()%>">[<%=destino.getCod()%>] <%=destino.getCidade()%></a></td>
-                                <td><%=rs.getInt("qtdPoltronas")%></td>
                                 <td><a href="?nVoo=<%=rs.getInt("nVoo")%>">detalhes</a></td>
-                                <td><a href="passagem.jsp?nVoo=<%=rs.getInt("nVoo")%>">Comprar passagem</a></td>
                             </tr><%
                         }
                         %></table><%
                     }
                 }else{
-                    %><p><a href="voo.jsp">Mostrar todos os voos cadastrados</a><%
                     //MOSTRA OS DADOS DO Voo SELECIONADO
-                    %><table border="1">
+                    %>
+                    <style>
+                        table tr th{
+                            text-align: right;
+                        }
+                    </style>
+                    <table border="1">
                         <tr>
                             <th>Número do Voo</th>
                             <td><%=voo.getNVoo()%></td>
@@ -96,7 +124,11 @@
                             <th>Duração</th>
                             <td><%=voo.getDuracao()%></td>
                         </tr>
-                    </table><%
+                        <tr>
+                            <td colspan="2" style="text-align:center;"><a href="passagem.jsp?nVoo=<%=voo.getNVoo()%>">Comprar passagem</a></td>
+                        </tr>
+                    </table>
+                    <%
                 }
             }catch(Exception e){
                 System.out.print(e);
