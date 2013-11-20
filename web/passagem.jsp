@@ -36,22 +36,26 @@
                 }
                 
                 if(voo != null){
-                    %><p>
-                        <strong>Número do Voo:</strong> <%=voo.getNVoo()%><br />
+                    %>
+                    <p>
+                        <strong>Número do Voo:</strong> <a href="voo.jsp?nVoo=<%=voo.getNVoo()%>"><%=voo.getNVoo()%></a><br />
                         <strong>Origem:</strong> <%=voo.getOrigem().getNome()%> [<a href="aeroporto.jsp?cod=<%=voo.getOrigem().getCod()%>"><%=voo.getOrigem().getCod()%></a>]<br />
                         <strong>Destino:</strong> <%=voo.getDestino().getNome()%> [<a href="aeroporto.jsp?cod=<%=voo.getDestino().getCod()%>"><%=voo.getDestino().getCod()%></a>]<br />
                         <strong>Data:</strong> <%=voo.getData()%> - <%=voo.getHora()%>
-                    </p><%
+                    </p>
+                    <%
                 }
                 
                 if(passagem != null){
                     %><p><a href="passagem.jsp">Mostrar todas as passagens cadastradas</a><%
                     //MOSTRA OS DADOS DA Passagem SELECIONADA
-                    %><table border="1">
-                        <tr>
-                            <th>Número do Voo</th>
-                            <td><a href="voo.jsp?nVoo=<%=passagem.getNVoo()%>"><%=passagem.getNVoo()%></a></td>
-                        </tr>
+                    %>
+                    <style>
+                        table tr th{
+                            text-align: right;
+                        }
+                    </style>
+                    <table border="1">
                         <tr>
                             <th>Poltrona</th>
                             <td><%=passagem.getNPoltrona()%></td>
@@ -64,7 +68,8 @@
                             <th>Nome do passageiro</th>
                             <td><%=passagem.getNomePassageiro()%></td>
                         </tr>
-                    </table><%
+                    </table>
+                    <%
                 }else if(voo != null && nPoltrona != 0){
                     //COMPRAR PASSAGEM
                     
@@ -77,7 +82,6 @@
                     
                     String cpf = usuarioAutenticado.getCpf();
                     if(request.getParameter("btnSubmit") != null){
-                        //FAZER A PARTE DE SALVAR PASSAGEM COMPRADA!!!!!
                         String nomePassageiro = request.getParameter("txtNomePassageiro");
                         
                         Passagem novaPassagem = new Passagem(voo.getNVoo(), nPoltrona, cpf, nomePassageiro);
@@ -85,12 +89,34 @@
                         response.sendRedirect("passagem.jsp?nVoo="+voo.getNVoo()+"&nPoltrona="+nPoltrona);
                     }
                     
+                    //BREADCRUMB
+                    %><p><a href="index.jsp">Início</a> > <a href="passagem.jsp">Passagem</a></p><%
+                    
                     %>
-                    <form method="post" action="?nVoo=<%=voo.getNVoo()%>&nPoltrona=<%=nPoltrona%>&comprar">
+                    <script>
+                        function validaSubmit(){
+                            if(document.getElementById("ckbContrato").checked === true){
+                                return true;
+                            }else{
+                                alert("Você deve aceitar o contrato de serviço para continuar!");
+                                return false;
+                            }
+                        }
+                    </script>
+                    <style>
+                        table tr th{
+                            text-align: right;
+                        }
+                    </style>
+                    <form method="post" action="?nVoo=<%=voo.getNVoo()%>&nPoltrona=<%=nPoltrona%>&comprar" onsubmit="return validaSubmit();">
                         <table>
                             <tr>
                                 <th>Nome do passageiro</th>
-                                <td><input type="text" name="txtNomePassageiro" /></td>
+                                <td><input type="text" name="txtNomePassageiro" value="<%=usuarioAutenticado.getNome()%>" /></td>
+                            </tr>
+                            <tr>
+                                <th><input type="checkbox" name="ckbContrato" id="ckbContrato" /></th>
+                                <td>Aceito o <a href="contrato.html" target="_blanck">contrato de serviço</a></td>
                             </tr>
                             <tr>
                                 <th>&nbsp;</th>
@@ -106,7 +132,12 @@
                     }else{
                         //MOSTRA TODAS AS Poltronas
                         ResultSet rs = Passagem.retornaTodos(nVoo);
-                        %><table border="1">
+                        
+                        //BREADCRUMB
+                        %><p><a href="index.jsp">Início</a> > <a href="passagem.jsp">Passagem</a></p><%
+                        
+                        %>
+                        <table border="1">
                             <tr>
                                 <th>Poltrona</th>
                                 <% for(int i=1; i<=voo.getQtdPoltronas(); i++){ %>
@@ -114,7 +145,7 @@
                                 <% } %>
                             </tr>
                             <tr>
-                                <td>Status</td>
+                                <th>Status</th>
                                 <% for(int i=1; i<=voo.getQtdPoltronas(); i++){ %>
                                     <%
                                         if(Passagem.poltronaDisponivel(nVoo, i)){
@@ -125,7 +156,8 @@
                                     %>
                                 <% } %>
                             </tr>
-                        </table><%
+                        </table>
+                        <%
                     }
                 }else{
                     //AQUI O USUÁRIO DEVE ESTAR LOGADO
@@ -134,6 +166,9 @@
                        %><p>Você deve estar autenticado para acessar esta página.</p><%
                        response.sendRedirect("login.jsp?urlToGo="+URLEncoder.encode(request.getRequestURI()+"?"+request.getQueryString(), "UTF-8"));
                     }
+                    
+                    //BREADCRUMB
+                    %><p><a href="index.jsp">Início</a> > <a href="passagem.jsp">Passagem</a></p><%
                     
                     //MOSTRA TODOS AS Passagens
                     ResultSet rs = Passagem.retornaTodos(usuarioAutenticado.getCpf());
@@ -154,9 +189,9 @@
                             Voo voo2 = new Voo(rs.getInt("nVoo"));
                             %><tr>
                                 <td><%=voo2.getData()%> - <%=voo2.getHora()%></td>
-                                <td><%=voo2.getOrigem().getCod()%></td>
-                                <td><%=voo2.getDestino().getCod()%></td>
-                                <td><%=rs.getInt("nPoltrona")%></td>
+                                <td align="center"><%=voo2.getOrigem().getCod()%></td>
+                                <td align="center"><%=voo2.getDestino().getCod()%></td>
+                                <td align="center"><%=rs.getInt("nPoltrona")%></td>
                                 <td><a href="?nVoo=<%=rs.getInt("nVoo")%>&nPoltrona=<%=rs.getInt("nPoltrona")%>">detalhes</a></td>
                             </tr><%
                         }

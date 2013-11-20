@@ -20,13 +20,19 @@
             txtSenha = "";
         }
     }catch(Exception e){
-        //msg = e.toString();
         msg = e.getMessage();
+    }
+    
+    //URLTOGO
+    String urlToGo = "";
+    if(request.getParameter("urlToGo") != null){
+        urlToGo = request.getParameter("urlToGo");
     }
     
     //LOGOUT
     if(request.getParameter("sair") != null){
         session.setAttribute("ctrl_usuario", null);
+        response.sendRedirect("index.jsp");
     }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -49,7 +55,7 @@
                 }
             </style>
             <form action="" method="post">
-                <input type="hidden" name="urlToGo" value="<%=request.getParameter("urlToGo")%>" />
+                <input type="hidden" name="urlToGo" value="<%=urlToGo%>" />
                 <table>
                     <tr>
                         <td class="alinharDireita">CPF:</td>
@@ -73,7 +79,11 @@
             <script>document.getElementById('txtUsuario').focus();</script>
             <%
         }else{ //USUÁRIO AUTENTICADO
-            response.sendRedirect(request.getParameter("urlToGo"));
+            if(!urlToGo.isEmpty()){
+                response.sendRedirect(urlToGo);
+            }else{
+                response.sendRedirect("index.jsp");
+            }
         }
         %>
     </body>

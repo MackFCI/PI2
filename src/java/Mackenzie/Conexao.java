@@ -106,9 +106,17 @@ public class Conexao {
                 String[][] registros = new String[][] {
                     //{codAeroporto, nome, cidade}
                     {"GRU", "Cumbica", "Guarulhos - SP"},
-                    {"CGO", "Congonhas", "Sao Paulo - SP"},
+                    {"CGH", "Congonhas", "Sao Paulo - SP"},
                     {"SDU", "Santos Dumont", "Rio de Janeiro - RJ"},
-                    {"BSB", "Juscelino Kubitschek", "Brasilia - DF"}
+                    {"BSB", "Juscelino Kubitschek", "Brasilia - DF"},
+                    {"GIG", "Galeao", "Rio de Janeiro - RJ"},
+                    {"SSA", "Dep. Magalhaes", "Salvador - BA"},
+                    {"CNF", "Confins", "Belo Horizonte - MG"},
+                    {"POA", "Salgado Filho", "Porto Alegre - RS"},
+                    {"REC", "Guararapes", "Recife - PE"},
+                    {"CWB", "Afonso Pena", "Curitiba - PR"},
+                    {"FOR", "Pinto Martins", "Fortaleza - CE"},
+                    {"VCP", "Viracopos", "Campinas - SP"}
                 };
                 for(int i=0; i < registros.length; i++){
                     try{
@@ -137,8 +145,11 @@ public class Conexao {
                 String[][] registros = new String[][] {
                     //{nVoo, data, hora, origem, destino, qtdPoltronas, qtdParadas, duracao}
                     {"1", "2013-11-21", "08:00:00", "GRU", "SDU", "5", "1", "2"},
-                    {"2", "2013-11-22", "09:00:00", "BSB", "CGO", "8", "2", "5"},
+                    {"2", "2013-11-22", "09:00:00", "BSB", "CGH", "8", "2", "5"},
                     {"3", "2013-11-23", "10:00:00", "SDU", "GRU", "5", "1", "2"},
+                    {"4", "2013-11-24", "11:00:00", "GIG", "REC", "6", "3", "4"},
+                    {"5", "2013-11-25", "12:00:00", "FOR", "CWB", "3", "2", "3"},
+                    {"6", "2013-11-26", "13:00:00", "VCP", "POA", "7", "5", "8"}
                 };
                 for(int i=0; i < registros.length; i++){
                     try{

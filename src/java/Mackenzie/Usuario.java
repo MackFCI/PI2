@@ -148,7 +148,7 @@ public class Usuario {
         Connection con = banco.getCon();
         
         //INSERIR
-        PreparedStatement ps = con.prepareStatement("UPDATE " + nomeTabela + " SET nome = ?, dtNascimento = ?, endereco = ?, telefone = ?, email = ?, senha = MD5(CONCAT(cpf, ?, ?) WHERE cpf = ?");
+        PreparedStatement ps = con.prepareStatement("UPDATE " + nomeTabela + " SET nome = ?, dtNascimento = ?, endereco = ?, telefone = ?, email = ?, senha = MD5(CONCAT(cpf, ?, ?)) WHERE cpf = ?");
         ps.setString(1, nome);
         ps.setDate(2, dtNascimento);
         ps.setString(3, endereco);

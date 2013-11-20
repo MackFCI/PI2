@@ -18,12 +18,12 @@
         Usuario usuarioAutenticado = (Usuario) session.getAttribute("ctrl_usuario");
         if(usuarioAutenticado == null){
             %>
-            <p><a href="cadastro.jsp">Clique aqui para se cadastrar</a></p>
+            <p><a href="cadastro.jsp?inserir">Cadastro</a> | <a href="login.jsp">Login</a></p>
             <p><a href="voo.jsp">Consultar voos disponíveis</a></p>
             <%
         }else{
             %>
-            <p>Olá <%=usuarioAutenticado.getNome()%> ! <a href="login.jsp?sair">Sair</a></p>
+            <p>Olá <%=usuarioAutenticado.getNome()%> | <a href="login.jsp?sair">Sair</a></p>
             <p><a href="voo.jsp">Consultar voos disponíveis</a></p>
             <p><a href="passagem.jsp">Consultar passagens compradas</a></p>
             <%
